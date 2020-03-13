@@ -129,7 +129,6 @@ def add_predicate(token_iter, xmlelement, predicate=[], modifiers=[]):
     elif token[0] == "":
         predicate.append(token[1])
     elif token[0] == "/":
-        print(predicate[0])
         subelement = ET.SubElement(xmlelement, predicate[0])
         predicate.clear()
         modifiers.clear()

@@ -1,6 +1,7 @@
 import unittest
 import xmlconfigparse
 import xml.etree.ElementTree as ET
+import xml.etree.ElementPath as EP
 
 
 class XmlToDictTest(unittest.TestCase):
@@ -51,6 +52,44 @@ class XmlToDictTest(unittest.TestCase):
         xmlteststring = ET.tostring(xmlroot)
         xmltempstring = ET.tostring(xmltestroot)
         self.assertEqual(xmlteststring, xmltempstring, msg="Unexpected string returned")
+
+    def test_elementinset(self):
+        """Test method insert subelements
+        """
+        element_test = ET.Element("test")
+        element_temp = ET.Element("test")
+        new_temp = ET.SubElement(element_temp, "new")
+        ET.SubElement(new_temp, "insert")
+        token_iter = EP.xpath_tokenizer("new/insert")
+        xmlconfigparse.elementinsert(token_iter, element_test)
+
+        element_temp_string = ET.tostring(element_temp)
+        element_test_string = ET.tostring(element_test)
+        self.assertEqual(
+            element_test_string, element_temp_string, msg="Unexpected string returned"
+        )
+
+    def test_predicate(self):
+        """Test predicate addition
+        """
+        element_test = ET.Element("test")
+        element_temp = ET.Element("test")
+        element_temp.text = "Hey"
+        element_temp.set("val", "8")
+        ET.SubElement(element_temp, "ins")
+
+        token_iter = EP.xpath_tokenizer("@val=8]")
+        xmlconfigparse.add_predicate(token_iter, element_test)
+        token_iter = EP.xpath_tokenizer("text()=Hey]")
+        xmlconfigparse.add_predicate(token_iter, element_test)
+        token_iter = EP.xpath_tokenizer("ins/]")
+        xmlconfigparse.add_predicate(token_iter, element_test)
+
+        element_temp_string = ET.tostring(element_temp)
+        element_test_string = ET.tostring(element_test)
+        self.assertEqual(
+            element_test_string, element_temp_string, msg="Unexpected string returned"
+        )
 
 
 if __name__ == "__main__":
