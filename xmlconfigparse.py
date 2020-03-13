@@ -27,16 +27,6 @@ def xmlinsert(xpath, xmlfile, tag=".", findall=False):
 
         tag (str): used by implementation of Elementree's iterfind function
             so see xml.etree.elementree for limitations.
-
-    dev:
-        if no pattern is provided:
-        parse input through
-        loop through list try to append subelement from previous subelement
-        except catches failure and creates initial subelement in the
-        in the specified root
-        else:
-        findall patterns of that satisfy pattern and add subelements to these
-        use ET.Element.iterfind()
     """
     # import xml and convert to element
     tree = ET.parse(xmlfile)
