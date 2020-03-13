@@ -91,6 +91,33 @@ class XmlToDictTest(unittest.TestCase):
             element_test_string, element_temp_string, msg="Unexpected string returned"
         )
 
+    def test_attribute(self):
+        """Test attribute setting
+        """
+        # template elements
+        attrib_element = ET.Element("test")
+        text_element = ET.Element("test")
+        attrib_element.set("val", "4")
+        text_element.text = "foo"
+
+        # testing elements
+        no_text_element = ET.Element("test")
+        no_attrib_element = ET.Element("test")
+
+        xmlconfigparse.set_xml_attribute(["@", "="], ["val", "4"], no_attrib_element)
+        xmlconfigparse.set_xml_attribute(["()", "="], ["text", "foo"], no_text_element)
+
+        element_attrib_string = ET.tostring(attrib_element)
+        element_text_string = ET.tostring(text_element)
+        no_attrib_string = ET.tostring(no_attrib_element)
+        no_text_string = ET.tostring(no_text_element)
+        self.assertEqual(
+            element_text_string, no_text_string, msg="Unexpected string returned"
+        )
+        self.assertEqual(
+            element_attrib_string, no_attrib_string, msg="Unexpected string returned"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

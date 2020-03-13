@@ -96,7 +96,7 @@ def add_predicate(token_iter, xmlelement, predicate=[], modifiers=[]):
         token_iter (obj): iterator type object containing tuples of strings
         attribute_flag (str): determines whether input is attribute of
     Returns:
-        (obj: 'str'): element class
+        None
 
     Notes:
         when we hit either ](base case) we resolve additions and end recursion
@@ -147,8 +147,8 @@ def set_xml_attribute(signature, text, xmlelement):
         signature (list): list of symbols dictating how text is handled
         text (list): list of strings
         xmlelement (obj: 'str'): element class from elementtree package
-    Dev Notes:
-        wip
+    
+    Return:
     """
     identifier = "".join(signature)
     if identifier == "@=":
